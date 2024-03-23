@@ -1,0 +1,18 @@
+model{
+  for(i in 1:length(y)){
+    y[i] ~ dnorm(mu[T[i]],tau)
+    T[i] ~ dcat(p[a[i],])
+  }
+  for (j in 1:3){
+    mu0[j] ~ dunif(0.83,4.46) #minY and maxY
+  }
+  mu <- sort(mu0)
+  
+  tau ~ dgamma(0.01,0.01)
+  sigma <- 1/sqrt(tau)
+  
+  for (k in 1:3){ #iterating over all ages
+    p[k,1:3] ~ ddirch(alpha[])
+  }
+  alpha <- c(1,1,1)
+}
